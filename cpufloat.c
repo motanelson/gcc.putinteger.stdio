@@ -16,27 +16,22 @@ void cputs(char* s){
     }
 
 }
-void cputpart(float i){
-     char ccc[4096]="";
-     float maxs=0.1f;
-     float n=i;
-     float a=0;
-     float remain=0;
-     
-     int counter=0;
-     for (counter=0;counter<4;counter++){
-         a=0;
-         a=n/maxs;
-         remain=n-a*maxs;
-         maxs=maxs/(10.0f);
-         ccc[counter]=(char)a+48.00; 
-         
-         n=remain;
-         ccc[counter+1]=(char)0;
-     }
-     
-     cputc('.');
-     cputs(ccc);
+void cputpart(float frac) {
+    char ccc[32];
+    int counter = 0;
+
+    cputc('.');  // separador decimal
+
+    // imprime 4 casas decimais
+    for (int i = 0; i < 6; i++) {
+        frac *= 10.0;
+        int digit = (int)frac;   // parte inteira
+        frac -= digit;           // remove a parte inteira
+        ccc[counter++] = (char)(digit + '0');
+    }
+    ccc[counter] = 0;
+
+    cputs(ccc);
 }
 
 void cputinteger(int i){
@@ -70,7 +65,7 @@ void cputfloat(float i){
 int main(){
     char *ccc="hello world.....\n";
     printf("\033c\033[43;30m\nputinteger;\n");
-    cputfloat(3.1415f);
+    cputfloat(3.1415927f);
 
     return 0;
 }
